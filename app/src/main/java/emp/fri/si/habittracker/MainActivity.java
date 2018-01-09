@@ -36,82 +36,15 @@ import java.util.logging.Logger;
  *  quote of the day
  */
 
-public class MainActivity extends Activity implements Quote.OnProgressListener{
+public class MainActivity extends Activity {
 
-    ProgressBar pb; // progress bar
-    TextView tv; // besedilo
-    RequestQueue requestQueue; // vrsta za zahteve
-    String url; // url za zahtevke
-    String author; // avtor citat
-    String quote; // citat
-    Button start;
-
-    private Quote citat; // qoute of the day
-
-    // zastavica
-    boolean hehe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // v tem tretnutko še ne poznam avtorja in citata
-        this.author = "";
-        this.quote = "";
-
-        // inicializacija
-        this.citat = null;
-        this.pb = (ProgressBar) (findViewById(R.id.progressBar));
-        this.tv = (TextView) (findViewById(R.id.textView));
-        this.start = (Button) findViewById(R.id.button);
-        this.requestQueue = Volley.newRequestQueue(getApplicationContext());
-        this.url = "http://quotes.rest/qod.json";
-
-        start.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                citat = new Quote();
-                citat.setOnProgressListener(MainActivity.this);
-                citat.execute(getApplicationContext(), url); // iz tega urlja mi prenesi quote
-            }
-        });
-
     }
-
-    @Override
-    public void onStarted(){
-        pb.setProgress(0);
-        start.setEnabled(false);
-    }
-
-    @Override
-    public void onProgress(double progress, String [] table){
-        pb.setProgress((int)progress);
-        hehe = true;
-        // če še podatki niso prenešeni
-        for(int i = 0; i < table.length; i++){
-            if(table[i] == null || table[i].equals("")) {
-                hehe = false;
-                break;
-            }
-        }
-        if(hehe){
-            tv.setText(new String(table[0] + ", '" + table[1] + "'"));
-        }
-    }
-
-    @Override
-    public void onStopped(String[] strings) {
-        quote = strings[0];
-        author = strings[1];
-        Toast.makeText(getApplicationContext(),
-                ("working done hehehe"),
-                Toast.LENGTH_SHORT).show();
-        citat = null;
-        start.setEnabled(true);
-    }
-
     // Ko aplikacijo nadaljujem spet prensem quote
 //    @Override
 //    protected void onResume() {
