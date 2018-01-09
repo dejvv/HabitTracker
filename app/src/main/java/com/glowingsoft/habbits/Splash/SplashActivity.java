@@ -1,16 +1,19 @@
-package emp.fri.si.habittracker;
+package com.glowingsoft.habbits.Splash;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.glowingsoft.habbits.MainActivity;
+import com.glowingsoft.habbits.R;
 
 /**
  * Created by david on 09/01/2018.
@@ -18,7 +21,7 @@ import com.android.volley.toolbox.Volley;
 
 public class SplashActivity extends Activity implements Quote.OnProgressListener {
     ProgressBar pb; // progress bar
-    TextView tv; // besedilo
+    TextView tv, tv1; // besedilo
     RequestQueue requestQueue; // vrsta za zahteve
     String url; // url za zahtevke
     String author; // avtor citat
@@ -28,6 +31,7 @@ public class SplashActivity extends Activity implements Quote.OnProgressListener
 
     // zastavica
     boolean hehe;
+    boolean displayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +44,12 @@ public class SplashActivity extends Activity implements Quote.OnProgressListener
 
         // inicializacija
         this.citat = null;
-        this.pb = (ProgressBar) (findViewById(R.id.progressBar));
-        this.tv = (TextView) (findViewById(R.id.textView));
+        this.pb = (ProgressBar) (findViewById(R.id.progressBarSplash));
+        this.tv = (TextView) (findViewById(R.id.textViewSplash));
+        this.tv1 = (TextView) (findViewById(R.id.textViewSplash1));
         this.requestQueue = Volley.newRequestQueue(getApplicationContext());
         this.url = "http://quotes.rest/qod.json";
+        this.displayed = false;
 
         citat = new Quote();
         citat.setOnProgressListener(SplashActivity.this);
@@ -60,16 +66,22 @@ public class SplashActivity extends Activity implements Quote.OnProgressListener
         pb.setProgress((int) progress);
         quote = table[0];
         author = table[1];
+
         hehe = true;
         // če še podatki niso prenešeni
-        for (int i = 0; i < table.length; i++) {
+        for (int i = 0; i < table.length && !displayed; i++) {
             if (table[i] == null || table[i].equals("")) {
                 hehe = false;
                 break;
             }
         }
-        if (hehe) {
-            tv.setText(new String(quote + ", '" + author + "'"));
+        if (hehe && !displayed) {
+            Log.d("[REST success]tv",quote + ", '" + author + "'" );
+            quote = quote.substring(0, quote.length() - 1); // odstranim zadnji znak(piko)
+            tv.setText(new String('"' + quote + '"'));
+            tv1.setText(new String(author));
+            RunAnimation();
+            displayed = true;
         }
     }
 
@@ -78,11 +90,21 @@ public class SplashActivity extends Activity implements Quote.OnProgressListener
         citat = null;
 
         Toast.makeText(getApplicationContext(),
-                ("working done hehehe"),
+                ("Welcome traveler!"),
                 Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void RunAnimation()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.scale);
+        a.reset();
+        tv.clearAnimation();
+        tv.startAnimation(a);
+        tv1.clearAnimation();
+        tv1.startAnimation(a);
     }
 }

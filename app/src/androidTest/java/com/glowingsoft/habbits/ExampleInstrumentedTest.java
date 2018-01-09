@@ -1,4 +1,4 @@
-package emp.fri.si.habittracker;
+package com.glowingsoft.habbits;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("emp.fri.si.habittracker", appContext.getPackageName());
+        assertEquals("com.glowingsoft.habbits", appContext.getPackageName());
     }
 }

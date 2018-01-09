@@ -1,4 +1,4 @@
-package emp.fri.si.habittracker;
+package com.glowingsoft.habbits.Splash;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,8 +21,8 @@ import org.json.JSONObject;
 public class Quote extends AsyncTask<Object, Double, String []> {
     public interface OnProgressListener{
         void onStarted();
-        void onProgress(double progress, String [] table);
-        void onStopped(String [] strings);
+        void onProgress(double progress, String[] table);
+        void onStopped(String[] strings);
     }
     private OnProgressListener onProgressListener = null;
 
@@ -86,6 +86,7 @@ public class Quote extends AsyncTask<Object, Double, String []> {
                 e.printStackTrace(); // napaka
             }
             Log.d("[REST success],", response.toString());
+            Log.d("[REST success],", tabela[0] + " " + tabela[1]);
         }
     };
 
@@ -95,7 +96,7 @@ public class Quote extends AsyncTask<Object, Double, String []> {
             double percent = 100.0 * (double) i / (double) limit;
             publishProgress(percent);
             try {
-                Thread.sleep(20);
+                Thread.sleep(50);
             } catch (InterruptedException e){
                 e.printStackTrace();
             }

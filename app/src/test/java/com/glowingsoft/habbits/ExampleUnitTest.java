@@ -1,4 +1,4 @@
-package emp.fri.si.habittracker;
+package com.glowingsoft.habbits;
 
 import org.junit.Test;
 
