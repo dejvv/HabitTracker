@@ -31,8 +31,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         ShowHabbits = (TextView) findViewById(R.id.ShowHabbits);
         ShowHabbits.setOnClickListener(this);
-
-
     }
 
     @Override
